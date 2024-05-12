@@ -29,7 +29,6 @@ dist-ssr
 *.sln
 *.sw?
 .yarn
-public/appsettings.json
 
 # iconify dist files
 src/@iconify/*.js
