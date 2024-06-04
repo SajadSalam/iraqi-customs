@@ -58,6 +58,7 @@ declare module '@vue/runtime-core' {
     FormDialog: typeof import('./src/components/app-table/FormDialog.vue')['default']
     GenerateFields: typeof import('./src/components/app-form/GenerateFields.vue')['default']
     I18n: typeof import('./src/@core/components/I18n.vue')['default']
+    IraqMap: typeof import('./src/components/IraqMap.vue')['default']
     Map: typeof import('./src/components/maps/Map.vue')['default']
     MoreBtn: typeof import('./src/@core/components/MoreBtn.vue')['default']
     Notifications: typeof import('./src/@core/components/Notifications.vue')['default']
