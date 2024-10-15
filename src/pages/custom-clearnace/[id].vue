@@ -9,7 +9,7 @@ import CustomsInfo from '@/views/custom-clearnace/detials/clearance/customs-info
 import GoodsPrice from '@/views/custom-clearnace/detials/clearance/goods-price.vue'
 import ImportInfo from '@/views/custom-clearnace/detials/clearance/import-info.vue'
 import MainDetials from '@/views/custom-clearnace/detials/clearance/main-detials.vue'
-import DeliveryOrder from '@/views/custom-clearnace/detials/deliveryOrder.vue'
+import DeliveryOrder from '@/views/custom-clearnace/detials/DeliveryOrder.vue'
 import AuditorForm from '@/views/custom-clearnace/forms/auditor-form.vue'
 import CheckForm from '@/views/custom-clearnace/forms/check-form.vue'
 import CheckerForm from '@/views/custom-clearnace/forms/checker-form.vue'
@@ -91,8 +91,6 @@ const goodsData = computed(() => {
 })
 
 const selectedDetialsTab = ref<string>('main')
-
-
 
 const { user } = useUserStore()
 const router = useRouter()
