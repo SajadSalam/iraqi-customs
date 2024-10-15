@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { filter } from './filter'
 import AppTable from '@/components/app-table/AppTable.vue'
 import type { TableField } from '@/components/app-table/types'
 import { ViewType } from '@/components/app-table/types'
@@ -7,7 +8,6 @@ import type { ApiUrls } from '@/models/apiUrls'
 import swAxios from '@/plugins/sw-axios'
 import { useUserStore } from '@/stores/UserStore'
 import CreateCustomClearance from '@/views/custom-clearnace/CreateCustomClearance.vue'
-import { filter } from './filter'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -25,7 +25,7 @@ onMounted(async () => {
   if (userStore.user.customerId) {
     const { data } = await swAxios.get(`/customer/${userStore.user.customerId}`)
 
-    urls.value.get = `/deliveryOrder?isExport=false&customerId=${data.relatedId}`
+    // urls.value.get = `/deliveryOrder?isExport=false&customerId=${data.relatedId}`
   }
   customer.value = ''
 })

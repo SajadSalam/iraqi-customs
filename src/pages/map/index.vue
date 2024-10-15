@@ -1,18 +1,101 @@
 <script lang="ts" setup>
-import MapboxDraw from '@mapbox/mapbox-gl-draw'
+import { useMotionControls, useMotionProperties } from '@vueuse/motion'
 import mapboxgl from 'mapbox-gl'
 import { useMapConfig } from './utils'
+import { formatDate } from '@/@core/utils/formatters'
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiaXRzN2RyIiwiYSI6ImNtMWt1aGxsaDAyemoybHNlMXYxOXoxeGsifQ.dhHtaQSWy8i1_mCvLu9OAg'
-mapboxgl.setRTLTextPlugin(
-  'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.3.0/mapbox-gl-rtl-text.js',
-  null,
-  true, // Lazy load the plugin
-)
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2FqYWRzYWxhbSIsImEiOiJjbGhwaGVmcmowNzIxM2tvOHF2NzJoc2U1In0.5GFUtHf505LWRo4HsuEEqQ'
+
+const card = ref<HTMLElement>()
+const cardMotionProperties = useMotionProperties(card)
+
+const cardMotion = useMotionControls(cardMotionProperties.motionProperties, {
+  initial: {
+    x: -200,
+    opacity: 0,
+  },
+  custom: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 1000,
+    },
+  },
+})
+
+const learnCard = ref<HTMLElement>()
+const learnCardMotionProperties = useMotionProperties(learnCard)
+
+const learnCardMotion = useMotionControls(learnCardMotionProperties.motionProperties, {
+  initial: {
+    x: 200,
+    opacity: 0,
+    transition: {
+      duration: 1000,
+    },
+  },
+  custom: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 1000,
+    },
+  },
+})
+
+const selectedMarker = ref(0)
+
+cardMotion.apply('initial')
+learnCardMotion.apply('custom')
+
+const ports = [
+  {
+    coordinates: [47.1329, 30.4856],
+    title: 'منفذ سفوان',
+  },
+  {
+    coordinates: [47.3566, 32.4183],
+    title: 'منفذ الشلامجة',
+  },
+  {
+    coordinates: [46.6651, 30.3726],
+    title: 'منفذ الزبير',
+  },
+  {
+    coordinates: [44.2394, 33.5104],
+    title: 'منفذ أم قصر الشمالي',
+  },
+  {
+    coordinates: [47.8095, 30.5852],
+    title: 'منفذ أم قصر الجنوبي',
+  },
+  {
+    coordinates: [47.7273, 29.473],
+    title: 'منفذ شلوي',
+  },
+  {
+    coordinates: [46.0936, 30.9188],
+    title: 'منفذ زرباطية',
+  },
+]
 
 const mapConfig = useMapConfig()
 const mapContainer = ref<HTMLElement>()
-const draw = ref(null)
+
+const start = computed({
+  get: () => mapConfig.zoomInStart,
+  set: value => {
+    mapConfig.zoomInStart = value
+  },
+
+})
+
+const end = computed({
+  get: () => mapConfig.zoomInEnd,
+  set: value => {
+    mapConfig.zoomInEnd = value
+  },
+})
 
 const config = computed({
   get: () => mapConfig.config,
@@ -22,59 +105,267 @@ const config = computed({
 
 })
 
+const isCardShow = ref(false)
+const markers = ref([])
 const map = ref<mapboxgl.Map>()
+const isLearnShow = ref(true)
+
+const flyToPort = index => {
+  selectedMarker.value = index
+
+  const latLng = ports[index].coordinates
+
+  isLearnShow.value = false
+  end.value.center = latLng
+  end.value.zoom = map.value.getZoom() + 2
+  map.value.flyTo({
+    ...end.value,
+    duration: 3000,
+    essential: true,
+    easing: t => {
+      if (t === 1)
+        isCardShow.value = true
+
+      return t
+    },
+  })
+}
 
 onMounted(() => {
   // Initialize Mapbox
   config.value.container = mapContainer.value
 
   map.value = new mapboxgl.Map(config.value)
-  draw.value = new MapboxDraw({
-    displayControlsDefault: true, // Set to true to show default controls
-    controls: {
-      polygon: true, // Enable polygon drawing
-      trash: true, // Enable the ability to delete shapes
-    },
-  })
+  for (const feature of ports) {
+  // create a HTML element for each feature
+    const el = document.createElement('div')
 
-  // Add the draw control to the map
-  map.value.on('load', () => {
-    map.value.addControl(draw.value) // Add draw control only after the map has loaded
-  })
+    el.className = 'marker'
+    el.innerHTML = feature.title
 
-  // Event listeners for drawing polygons
-  map.value.on('draw.create', updatePolygon)
-  map.value.on('draw.update', updatePolygon)
-  map.value.on('draw.delete', updatePolygon)
+    const marker = new mapboxgl.Marker(el)
 
-  // Function to handle polygon updates
-  function updatePolygon() {
-    const data = draw.value.getAll()
-    if (data.features.length > 0) {
-      const coordinates = data.features[0].geometry.coordinates
+    marker
+      .setLngLat(feature.coordinates)
+      .addTo(map.value)
 
-      console.log('Polygon Coordinates:', coordinates)
-    }
+    markers.value.push({ marker, feature })
+    marker.getElement().addEventListener('click', () => {
+      flyToPort(ports.indexOf(feature))
+    })
   }
-
+  let isAtStart = true
   map.value.on('click', async e => {
-    console.log(e)
-  })
+    isAtStart = !isAtStart
+    if (isAtStart) {
+      map.value.flyTo({
+        ...start.value,
+        duration: 1500,
+        essential: true,
+        easing: t => {
+          isCardShow.value = false
+          if (t === 1)
+            isLearnShow.value = true
 
-  // map.value.on('click', async e => {
-  //   console.log(e)
-  // })
-  // map.value.on('click', async e => {
-  //   console.log(e)
-  // })
+          return t
+        },
+      })
+    }
+  })
 })
+watch(isCardShow, value => {
+  if (value)
+    cardMotion.apply('custom')
+  else
+    cardMotion.apply('initial')
+})
+
+watch(isLearnShow, value => {
+  if (value)
+    learnCardMotion.apply('custom')
+  else
+    learnCardMotion.apply('initial')
+})
+
+const router = useRouter()
 </script>
 
 <template>
   <div
+    v-motion="{
+      initial: {
+        y: -100,
+        opacity: 0,
+      },
+      enter: {
+        y: 0,
+        opacity: 1,
+        transition: {
+          duration: 1000,
+        },
+      },
+    }"
+    class="d-flex align-center justify-space-between appbar pa-2 mt-3"
+  >
+    <div class="d-flex align-center">
+      <img
+        src="/iraq.png"
+        alt=""
+        srcset=""
+        style="width: 100px; height: 100px; object-fit: contain ;"
+      >
+      <div>
+        <h2 class="text-white">
+          جمهورية العراق
+        </h2>
+        <p class="text-white mt-1">
+          نظام مراقبة المنافذ الحدودية والجمارك
+        </p>
+      </div>
+    </div>
+    <VBtn
+      variant="outlined"
+      @click="router.push('/')"
+    >
+      <VIcon>
+        mdi-arrow-left
+      </VIcon>
+      رجوع الى نظام النافذة الواحدة
+    </VBtn>
+  </div>
+  <div
     ref="mapContainer"
     class="map-container"
   />
+  <VCard
+    v-if="selectedMarker !== null"
+    ref="card"
+    class="overall"
+  >
+    <VCardTitle class="pa-5">
+      {{
+        ports[selectedMarker].title
+      }}
+    </VCardTitle>
+    <VCardText class="mt-5">
+      <VRow class="justify-center">
+        <VCol
+          cols="12"
+          md="6"
+        >
+          <VCard
+            variant="tonal"
+            color="primary"
+            class="pa-2"
+          >
+            <h1 class="text-primary">
+              423
+            </h1>
+            امر تسليم بحري
+          </VCard>
+        </VCol>
+        <VCol
+          cols="12"
+          md="6"
+        >
+          <VCard
+            variant="tonal"
+            color="warning"
+            class="pa-2"
+          >
+            <h1 class="text-warning">
+              122
+            </h1>
+            امر تسليم جوي
+          </VCard>
+        </VCol>
+        <VCol
+          cols="12"
+          md="6"
+        >
+          <VCard
+            variant="tonal"
+            color="success"
+            class="pa-2"
+          >
+            <h1 class="text-success">
+              32
+            </h1>
+            امر تسليم بري
+          </VCard>
+        </VCol>
+
+        <VCol
+          cols="12"
+          md="12"
+        >
+          <VCard class="bg-gradient-primary border-white">
+            <VCardTitle class="text-primary py-3 font-weight-bold">
+              تصاريح المشبوهة
+            </VCardTitle>
+            <VCardText>
+              <VCard
+                v-for="i in 5"
+                :key="i"
+                class="my-2"
+              >
+                <VCardTitle class="d-flex align-center gap-2">
+                  <div class="warning-with-border rounded-lg pa-1">
+                    <VIcon>
+                      mdi-alert-circle-outline
+                    </VIcon>
+                  </div>
+                  <div>
+                    <h3 class="text-h6">
+                      حدث تغير في وزن البضاعة في
+                      {{ ports[selectedMarker].title }}
+                    </h3>
+                    <span class="text-h6">
+                      {{
+                        formatDate(new Date().toISOString())
+                      }}
+                    </span>
+                  </div>
+                </VCardTitle>
+              </VCard>
+            </VCardText>
+          </VCard>
+        </VCol>
+      </VRow>
+    </VCardText>
+  </VCard>
+  <VCard
+    ref="learnCard"
+    class="learn bg-transparent"
+  >
+    <VCardTitle class="d-flex align-center justify-center text-white flex-column gap-5">
+      <div class="learn-marker">
+        <VIcon size="70">
+          mdi-map-marker
+        </VIcon>
+      </div>
+      <h3 class="mt-5 text-h3 text-white">
+        قم بالضغط على احد المنافذ الحدودية
+      </h3>
+      <p class="text-h6 text-white">
+        للتحرك الى الموقع ورؤية جميع احصائيات المنفذ
+      </p>
+    </VCardTitle>
+    <VCardText>
+      <VChipGroup>
+        <VChip
+          v-for="(port, index) in ports"
+          :key="index"
+          variant="outlined"
+          @click="flyTo(port, index)"
+        >
+          {{
+            port.title
+          }}
+        </VChip>
+      </VChipGroup>
+    </VCardText>
+  </VCard>
 </template>
 
 <style lang="scss">

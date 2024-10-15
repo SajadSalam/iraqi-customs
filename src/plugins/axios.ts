@@ -1,8 +1,8 @@
 /* eslint-disable regex/invalid */
+import router from '@/router'
 import axios from 'axios'
 import { toast } from 'vue3-toastify'
 import appsettings from '../../public/appsettings.json'
-import router from '@/router'
 
 export const baseURL = appsettings.baseURL
 
@@ -23,7 +23,7 @@ axiosIns.interceptors.request.use(config => {
 
   config.headers = config.headers || {}
   config.headers['Accept-Language'] = 'ar'
-  config.headers.Authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIzOWIxNDUwZS04YjUxLTQxMmUtYjcxNy05NmRkZmJiZDk0YjUiLCJ1bmlxdWVfbmFtZSI6IjM5YjE0NTBlLThiNTEtNDEyZS1iNzE3LTk2ZGRmYmJkOTRiNSIsInJvbGUiOiIxIiwibmJmIjoxNzAyMjgzMTk4LCJleHAiOjE3MzMzODcxOTgsImlhdCI6MTcwMjI4MzE5OCwiaXNzIjoiVGVzdERCVGVzdERCIiwiYXVkIjoiMSJ9.E2SOuNZCDyTJQOIJFAWrlidD2fr5hdPLy9ug0gxcjc0'
+  config.headers.Authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiI5MDc0ZTlkZC01Yjk5LTRjODgtYTJhOC1iN2E4MDZlMGZjNzkiLCJ1bmlxdWVfbmFtZSI6IjkwNzRlOWRkLTViOTktNGM4OC1hMmE4LWI3YTgwNmUwZmM3OSIsInJvbGUiOiIxIiwiT2ZmaWNlSWQiOiIiLCJuYmYiOjE3MjkwMTM3NDMsImV4cCI6MTcyOTEwMDE0MywiaWF0IjoxNzI5MDEzNzQzLCJpc3MiOiJUZXN0REJUZXN0REIiLCJhdWQiOiIxIn0.eczdwHpPyxfa6pR4C0r1D_B3joJ1Dc7zM7ixEyalR94'
   if (!config.params)
     config.params = {}
 
