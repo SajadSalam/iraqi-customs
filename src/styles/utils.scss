@@ -23,7 +23,7 @@
 }
 
 .error-with-border {
-  border: 1px solid #b80000 !important;
+  border: 1px solid hwb(0 0% 28%) !important;
   background-color: rgba(#b80000, 10%) !important;
   color: #b80000 !important;
 }
@@ -103,7 +103,8 @@
 }
 
 .layout-wrapper {
-  background: linear-gradient(60deg, #ffffffe3, rgba($primary, 0.1)) !important;
+  background-image: url("/BG.png");
+  background-size: cover;
 }
 
 .v-card {

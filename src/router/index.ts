@@ -1,6 +1,5 @@
 import { setupLayouts } from 'virtual:generated-layouts'
 import { createRouter, createWebHistory } from 'vue-router'
-import { isUserLoggedIn } from './utils'
 import routes from '~pages'
 
 const router = createRouter({
@@ -13,14 +12,14 @@ const router = createRouter({
 const userData = localStorage.getItem('userData')
 const user = userData ? JSON.parse(userData) : null
 
-router.beforeEach((to, from, next) => {
-  if (to.name !== 'login' && to.name !== 'index') {
-    if (!isUserLoggedIn())
-      return next({ name: 'login' })
-  }
+// router.beforeEach((to, from, next) => {
+//   if (to.name !== 'login' && to.name !== 'index') {
+//     if (!isUserLoggedIn())
+//       return next({ name: 'login' })
+//   }
 
-  return next()
-})
+//   return next()
+// })
 
 // Docs: https://router.vuejs.org/guide/advanced/navigation-guards.html#global-before-guards
 

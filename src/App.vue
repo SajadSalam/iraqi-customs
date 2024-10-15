@@ -1,39 +1,21 @@
 <script setup lang="ts">
-import swAxios from '@/plugins/sw-axios'
-import ScrollToTop from '@core/components/ScrollToTop.vue'
-import { useThemeConfig } from '@core/composable/useThemeConfig'
-import { hexToRgb } from '@layouts/utils'
 import * as signalR from '@microsoft/signalr'
 import { HubConnectionBuilder } from '@microsoft/signalr'
 import { useTheme } from 'vuetify'
 import appsettings from '../public/appsettings.json'
 import type { ClearanceDetails } from './pages/custom-clearnace/types'
 import { CustomClearanceStatus } from './pages/custom-clearnace/types'
+import { hexToRgb } from '@layouts/utils'
+import { useThemeConfig } from '@core/composable/useThemeConfig'
+import ScrollToTop from '@core/components/ScrollToTop.vue'
+import swAxios from '@/plugins/sw-axios'
 
 const { theme } = useThemeConfig()
 const baseURL = appsettings['sw-baseURL']
 
 const { syncInitialLoaderTheme, syncVuetifyThemeWithTheme: syncConfigThemeWithVuetifyTheme, isAppRtl, handleSkinChanges } = useThemeConfig()
 const { global } = useTheme()
-function playNotificationSound() {
-  const AudioContext = window.AudioContext || window.webkitAudioContext
-  const audioCtx = new AudioContext()
 
-  // Load the audio file
-  fetch('/bell.wav')
-    .then(response => response.arrayBuffer())
-    .then(arrayBuffer => audioCtx.decodeAudioData(arrayBuffer))
-    .then(audioBuffer => {
-      const source = audioCtx.createBufferSource()
-
-      source.buffer = audioBuffer
-      source.connect(audioCtx.destination)
-      source.start()
-    })
-    .catch(error => {
-      console.error('Failed to load audio file:', error)
-    })
-}
 const router = useRouter()
 const cert = ref<ClearanceDetails>(null)
 const isSnackbarOpen = ref(false)

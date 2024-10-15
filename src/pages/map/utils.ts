@@ -1,12 +1,10 @@
 export const useMapConfig = defineStore('mapConfig', () => {
   const config = ref<mapboxgl.MapboxOptions>({
-    style: 'mapbox://styles/sajadsalam/clw9c2jlb005301qrf9zbdrgo',
+    style: 'mapbox://styles/its7dr/cm1kvnekv00hh01pehnvm3sbq',
     center: [49.05458739211656, 33.553414942401005],
     zoom: 5.5,
     bearing: 1,
 
-    minZoom: 5.5,
-    maxZoom: 15,
     container: 'map',
     testMode: true,
   })

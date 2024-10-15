@@ -118,6 +118,15 @@ const totalCustomPriceUSD = computed(() => {
 
 <template>
   <div class="mt-5">
+    <VAlert class="error-with-border text-h4 ">
+      <div class="d-flex">
+        <span>
+          سعر الضريبة الكلي
+        </span>
+        <VSpacer />
+        {{ (totalCustomPriceUSD * 0.33).toLocaleString() }} USD
+      </div>
+    </VAlert>
     <div class="d-flex my-2 gap-5">
       <VAlert class="primary-with-border text-h4 ">
         <div class="d-flex">
@@ -125,7 +134,7 @@ const totalCustomPriceUSD = computed(() => {
             المجموع الكلي للتخمين بالدولار
           </span>
           <VSpacer />
-          {{ clearance.totalUsdAmount.toLocaleString() }} USD
+          {{ totalCustomPriceUSD.toLocaleString() }} USD
         </div>
       </VAlert>
       <VAlert class="secondary-with-border text-h4 ">
@@ -134,7 +143,7 @@ const totalCustomPriceUSD = computed(() => {
             المجموع الكلي للتخمين بالدينار
           </span>
           <VSpacer />
-          {{ clearance.totalIqdAmount.toLocaleString() }} IQD
+          {{ (totalCustomPriceUSD * 1320).toLocaleString() }} IQD
         </div>
       </VAlert>
     </div>

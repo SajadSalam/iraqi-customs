@@ -1,6 +1,6 @@
-import type { Body } from './types'
 import swAxios from '@/plugins/sw-axios'
 import axios from '@axios'
+import type { Body } from './types'
 
 export const useApplicationService = () => {
   // return type Body
@@ -51,10 +51,10 @@ export const useApplicationService = () => {
     // }
     return {
       user:
-       {
-         email: 'test@user.com',
-         password: '123@root',
-       },
+      {
+        email: 'test@user.com',
+        password: '123@root',
+      },
       ceo: {
         id: '',
         isApplicationNew: true,

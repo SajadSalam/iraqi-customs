@@ -31,8 +31,8 @@ watch(() => modelValue.value, async value => {
 const body = ref({
   customerId: '',
   deliveryOrder: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-  employeeName: '',
-  accountantName: '',
+  employeeName: 'محمد حسين',
+  accountantName: 'كاظم محسن',
   products: [],
 })
 
@@ -113,16 +113,18 @@ const post = async () => {
                   33,000 د.ع
                 </span>
               </div>
-              <AppTextField
+              <!--
+                <AppTextField
 
                 v-model="body.accountantName"
                 label="اسم المحاسب"
-              />
-              <AppTextField
+                />
+                <AppTextField
 
                 v-model="body.employeeName"
                 label="اسم الموظف"
-              />
+                />
+              -->
             </div>
           </VCol>
           <VCol

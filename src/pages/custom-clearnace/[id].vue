@@ -92,12 +92,7 @@ const goodsData = computed(() => {
 
 const selectedDetialsTab = ref<string>('main')
 
-const showMainTab = computed(() => {
-  if (isStatus(CustomClearanceStatus.Auditor))
-    return selectedDetialsTab.value === 'main'
-  else
-    return true
-})
+
 
 const { user } = useUserStore()
 const router = useRouter()
@@ -237,7 +232,7 @@ const isOnlyChangeStatus = computed(() => {
       @submitted="changeStatus(nextStatus.status)"
     />
     <VTabs
-      v-if="isStatus(CustomClearanceStatus.Auditor)"
+      v-if="customClearance?.status > 2"
       v-model="selectedDetialsTab"
       align-tabs="center"
       class="do-tabs px-3 mb-2"
@@ -251,7 +246,7 @@ const isOnlyChangeStatus = computed(() => {
         تخمين السعر
       </VTab>
     </VTabs>
-    <div v-if="showMainTab">
+    <div v-if="selectedDetialsTab === 'main'">
       <VRow>
         <VCol
           cols="12"
@@ -343,7 +338,8 @@ const isOnlyChangeStatus = computed(() => {
         </VCol>
       </VRow>
     </div>
-    <div v-if="selectedDetialsTab == 'price'">
+
+    <div v-if="selectedDetialsTab === 'price'">
       <GoodsPrice
         :clearance="customClearance"
         :delivery-order="deliveryOrder"
