@@ -8,7 +8,7 @@ import CustomerInfo from '@/views/custom-clearnace/detials/clearance/customer-in
 import CustomsInfo from '@/views/custom-clearnace/detials/clearance/customs-info.vue'
 import ImportInfo from '@/views/custom-clearnace/detials/clearance/import-info.vue'
 import MainDetials from '@/views/custom-clearnace/detials/clearance/main-detials.vue'
-import DeliveryOrder from '@/views/custom-clearnace/detials/deliveryOrder.vue'
+import DeliveryOrder from '@/views/custom-clearnace/detials/DeliveryOrder.vue'
 import { Tabs } from '@/views/pages/delivery-order-item/types'
 
 const route = useRoute()
