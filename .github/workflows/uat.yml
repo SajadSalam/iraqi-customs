@@ -1,9 +1,9 @@
- name: Deploy MaritimeAgencies-Front UAT Service
+ name: Deploy Customs-Front UAT Service
 
  on:
    push:
      branches:
-       - uat
+       - main
 
  jobs:
    build:
