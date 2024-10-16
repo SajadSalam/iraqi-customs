@@ -39,10 +39,14 @@ MerchantComplete */
     urls.value.get = '/custom-clearance?status=6'
   else if (userStore.user.role === 'TaxComplete')
     urls.value.get = '/custom-clearance?status=7'
-  else if (userStore.user.role === 'MerchantView')
-    urls.value.get = '/custom-clearance?status=8'
+  // else if (userStore.user.role === 'MerchantView')
+  //   urls.value.get = '/custom-clearance?status=8'
   else if (userStore.user.role === 'MerchantComplete')
+    urls.value.get = '/custom-clearance?status=8'
+  else if (userStore.user.role === 'Ports')
     urls.value.get = '/custom-clearance?status=9'
+  else if (userStore.user.role === 'SecurityCheck')
+    urls.value.get = '/custom-clearance?status=10'
   else if (userStore.user.role === 'Customer')
     urls.value.get = `/custom-clearance?customerId=${userStore.user.customerId}`
   else

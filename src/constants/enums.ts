@@ -65,15 +65,15 @@ const customClearanceStatus = [
     color: 'secondary',
   },
   {
-    name: 'MerchantView',
+    name: 'MerchantComplete',
     value: 8,
-    arName: 'عرض التاجر',
+    arName: 'دفع الرسوم',
     color: 'info',
   },
   {
-    name: 'MerchantComplete',
+    name: 'Ports',
     value: 9,
-    arName: 'مكتمل التاجر',
+    arName: 'التخريج من المنافذ',
     color: 'success',
   },
 

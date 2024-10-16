@@ -7,10 +7,9 @@ export enum CustomClearanceStatus {
   TaxWriter = 5,
   TaxChecker = 6,
   TaxComplete = 7,
-  MerchantView = 8,
-  MerchantComplete = 9,
-  Ports = 10,
-  SecurityCheck = 11,
+  MerchantComplete = 8,
+  Ports = 9,
+  SecurityCheck = 10,
 }
 export interface ClearanceDetails {
   certificate?: Certificate

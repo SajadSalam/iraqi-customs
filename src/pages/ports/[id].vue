@@ -154,7 +154,7 @@ const changeStatus = async (status: CustomClearanceStatus) => {
     <ChangeStatusDialog
       v-model="isChangeStatusDialogOpen"
       title="السماح بالخروج واكمال التصريحة"
-      @submitted="changeStatus(CustomClearanceStatus.Ports)"
+      @submitted="changeStatus(CustomClearanceStatus.SecurityCheck)"
     />
     <VBtn
       color="primary"
