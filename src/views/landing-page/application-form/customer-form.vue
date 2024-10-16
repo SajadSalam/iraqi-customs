@@ -98,6 +98,7 @@ const formRef = computed({
             <AppTextField
               v-model="body.phoneNumber"
               label="رقم الهاتف"
+              dir="ltr"
             />
           </VCol>
           <VCol
@@ -178,7 +179,6 @@ const formRef = computed({
         </VRow>
       </FormCard>
       <FormCard title="الوثائق الرسمية">
-
         <AppFileUploader
           v-model="body.documents"
           multiple

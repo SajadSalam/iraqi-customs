@@ -196,9 +196,9 @@ watchEffect(() => {
 </template>
 
 <style lang="scss">
-.success {
+/* .success {
   background-color: rgb(var(--v-theme-success)) !important;
-}
+} */
 
 .app-stepper {
   border-radius: 50px !important;
@@ -251,7 +251,6 @@ watchEffect(() => {
     .stepper-steps-completed {
       .stepper-icon-step {
         .stepper-icon {
-          background: rgba(var(--v-theme-primary), 0.08);
           color: rgba(var(--v-theme-primary));
         }
       }

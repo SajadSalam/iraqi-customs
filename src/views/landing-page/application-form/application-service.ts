@@ -1,5 +1,4 @@
 import swAxios from '@/plugins/sw-axios'
-import axios from '@axios'
 import type { Body } from './types'
 
 export const useApplicationService = () => {
@@ -97,15 +96,15 @@ export const useApplicationService = () => {
   }
 
   const saveApplication = async (body: Body) => {
-    const sinbadCustomer = await axios.post('/Customers', {
-      phoneNumber: body.ceo?.phoneNumber,
-      fullname: body.ceo?.fullName,
-      customerType: 1,
-      isGovernorate: true,
-      address: 'string',
-    })
+    // const sinbadCustomer = await axios.post('/Customers', {
+    //   phoneNumber: body.ceo?.phoneNumber,
+    //   fullname: body.ceo?.fullName,
+    //   customerType: 1,
+    //   isGovernorate: true,
+    //   address: 'string',
+    // })
 
-    body.relatedId = sinbadCustomer.data.result
+    body.relatedId = '0eb80709-c9c2-4afb-83a9-b3de734fe49a'
 
     // const generatedPhoneNumber = `+96477${Math.floor(10000000 + Math.random() * 90000000)}`
 
@@ -116,6 +115,8 @@ export const useApplicationService = () => {
     //   isGovernorate: false,
     //   address: 'string',
     // })
+    console.log(body)
+
     await swAxios.post('/customer', body)
   }
 
