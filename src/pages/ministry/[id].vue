@@ -195,13 +195,13 @@ const orderOperation = (index: number) => order.value.operations[index]
                 </div>
                 <div class="mx-5">
                   <p>
-                    بدأ : {{ formatDate(orderOperation(i * j).creationDate) || '--' }}
+                    بدأ : {{ formatDate(orderOperation(i * j)?.creationDate || '') || '--' }}
                   </p>
                   <p>
-                    انتهى : {{ formatDate(orderOperation(i * j).endDate) || '--' }}
+                    انتهى : {{ formatDate(orderOperation(i * j)?.endDate || '') || '--' }}
                   </p>
                   <p>
-                    استغرق : {{ timeToWords(orderOperation(i * j).duration) || '--' }}
+                    استغرق : {{ timeToWords(orderOperation(i * j)?. duration || null) || '--' }}
                   </p>
                 </div>
               </div>

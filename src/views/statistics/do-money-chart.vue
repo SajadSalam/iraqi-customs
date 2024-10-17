@@ -10,7 +10,6 @@ const balanceChartConfig = ref({
     stacked: true,
     parentHeightOffset: 0,
     stackType: '50%',
-    parentHeightOffset: 0,
     height: 500,
 
   },
