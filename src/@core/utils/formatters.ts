@@ -8,7 +8,7 @@ export const avatarText = (value: string) => {
   return nameArray.map(word => word.charAt(0).toUpperCase()).join('')
 }
 export function numberToArabicWords(number: number): string {
-  const ones = ['', 'واحد', 'اثنان', 'ثلاثة', 'أربعة', 'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة', 'عشرة', 'أحد عشر', 'اثنا عشر', 'ثلاثة عشر', 'أربعة عشر', 'خمسة عشر', 'ستة عشر', 'سبعة عشر', 'ثمانية عشر', 'تسعة عشر']
+  const ones = ['صفر', 'واحد', 'اثنان', 'ثلاثة', 'أربعة', 'خمسة', 'ستة', 'سبعة', 'ثمانية', 'تسعة', 'عشرة', 'أحد عشر', 'اثنا عشر', 'ثلاثة عشر', 'أربعة عشر', 'خمسة عشر', 'ستة عشر', 'سبعة عشر', 'ثمانية عشر', 'تسعة عشر']
   const tens = ['', '', 'عشرون', 'ثلاثون', 'أربعون', 'خمسون', 'ستون', 'سبعون', 'ثمانون', 'تسعون']
 
   if (number <= 20)
@@ -35,11 +35,25 @@ export const kFormatter = (num: number) => {
  * @param {String} value date to format
  * @param {Intl.DateTimeFormatOptions} formatting Intl object to format with
  */
-export const formatDate = (value: string, formatting: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }) => {
+export const formatDate = (value: string, formatting: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }) => {
   if (!value)
     return value
 
   return new Intl.DateTimeFormat('ar-IQ', formatting).format(new Date(value))
+}
+
+/* format time 00:01:03.80468 to words */
+export const timeToWords = (time: string) => {
+  const timeParts = time.split(':')
+
+  const minutes = parseInt(timeParts[1], 10) // Extract the minutes
+  const seconds = Math.floor(parseFloat(timeParts[2])) // Extract the seconds and remove fractional part
+
+  // Format the minutes and seconds in Arabic
+  const minutesArabic = minutes === 0 ? 'صفر' : minutes
+  const secondsArabic = seconds === 0 ? 'صفر' : seconds
+
+  return `${minutesArabic} دقيقة و ${secondsArabic} ثانية`
 }
 
 /**

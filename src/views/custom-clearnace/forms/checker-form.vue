@@ -22,18 +22,16 @@ const products = computed(() => detials.value.products)
 
 const fitProducts = () => {
   body.value.products = []
-  products.value?.forEach(product => {
-    body.value.products.push({
-      id: product.id,
-      identical: true,
-      checkImages: [
-      ],
-      notIdenticalReason: '',
-      grossweight: '',
-      netweight: '',
-      quantity: product.quantity,
-      description: product.description,
-    })
+  body.value.products.push({
+    id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    identical: true,
+    checkImages: [
+    ],
+    notIdenticalReason: '',
+    grossweight: '',
+    netweight: '',
+    quantity: '10',
+    description: 'فحص',
   })
 }
 

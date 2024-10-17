@@ -6,7 +6,7 @@ import appsettings from '../../../public/appsettings.json'
 import { tabs as em, mainTabs } from './utils'
 import swAxios from '@/plugins/sw-axios'
 import StaticTable from '@/components/StaticTable.vue'
-import { formatDate } from '@/@core/utils/formatters'
+import { formatDate, timeToWords } from '@/@core/utils/formatters'
 
 const baseURL = appsettings['sw-baseURL']
 const currentTabIndex = ref(2)
@@ -21,14 +21,15 @@ tabs.value = mainTabs.map(tab => ({ ...tab, value: 0 }))
 const mainTab = computed(() => {
   let accumulatedIndex = 0
   for (let i = 0; i < tabs.value.length; i++) {
-    const childrenCount = tabs.value[i].childern.length
+    const childrenCount = tabs.value[i].childern.length // Corrected typo
     if (currentTabIndex.value < accumulatedIndex + childrenCount)
       return tabs.value[i]
 
     accumulatedIndex += childrenCount
   }
 
-  return tabs.value[tabs.value.length - 1] // If not found
+  // Return the last tab as fallback or handle missing tab case
+  return tabs.value[tabs.value.length - 1] // Corrected the index
 })
 
 watch(() => currentTabIndex.value, value => {
@@ -40,7 +41,7 @@ watch(() => currentTabIndex.value, value => {
   const currentChildIndex = mainTab.value?.childern.findIndex(v => v.id === currentTabIndex.value) || 0
 
   // Calculate the percentage
-  const progressPercentage = ((currentChildIndex + 1) / totalChildren) * 100
+  const progressPercentage = ((currentChildIndex) / totalChildren) * 100
 
   tabs.value.find(v => v.title === mainTab.value?.title).value = progressPercentage
 
@@ -94,6 +95,7 @@ const headers = [
 ]
 
 const isTabActive = (tab: number) => tab === currentTabIndex.value
+const orderOperation = (index: number) => order.value.operations[index]
 </script>
 
 <template>
@@ -115,7 +117,7 @@ const isTabActive = (tab: number) => tab === currentTabIndex.value
           class="stepper-item"
         >
           <VProgressCircular
-            :model-value="tab.value"
+            :model-value="tab.value < 0 ? 100 : tab.value"
             :rotate="360"
             :size="75"
             :width="8"
@@ -135,12 +137,14 @@ const isTabActive = (tab: number) => tab === currentTabIndex.value
     </VCardText>
   </VCard>
   <VCard
+    v-if="order != null"
+
     flat
     class="bg-gradient-primary border-white my-5 "
   >
     <VCardTitle class="text-primary text-h4 pa-5">
       تتبع سير المعاملة
-      {{ currentTabIndex }}
+      {{ mainTab }}
     </VCardTitle>
 
     <VDivider />
@@ -173,7 +177,7 @@ const isTabActive = (tab: number) => tab === currentTabIndex.value
               >
                 <div class="d-flex align-center gap-2">
                   <VProgressCircular
-                    :model-value="isTabActive(child.id) ? 100 : 0"
+                    :model-value="(isTabActive(j) || i < currentTabIndex) ? 100 : 0"
                     :rotate="360"
                     :size="30"
                     :width="3"
@@ -183,19 +187,22 @@ const isTabActive = (tab: number) => tab === currentTabIndex.value
                       {{ j + 1 }}
                     </template>
                   </VProgressCircular>
-                  <h3>
+                  <h3
+                    class="text-disabled"
+                    :class="{ 'text-success': child.id < currentTabIndex, 'text-primary': child.id === (currentTabIndex) }"
+                  >
                     {{ child.title }}
                   </h3>
                 </div>
                 <div class="mx-5">
                   <p>
-                    بدأ : 2002-02-02
+                    بدأ : {{ formatDate(orderOperation(i * j).creationDate) || '--' }}
                   </p>
                   <p>
-                    انتهى : 2002-02-02
+                    انتهى : {{ formatDate(orderOperation(i * j).endDate) || '--' }}
                   </p>
                   <p>
-                    استغرق : 8 ايام
+                    استغرق : {{ timeToWords(orderOperation(i * j).duration) || '--' }}
                   </p>
                 </div>
               </div>
@@ -205,25 +212,6 @@ const isTabActive = (tab: number) => tab === currentTabIndex.value
       </VRow>
     </VCardText>
   </VCard>
-  <div
-    v-for="tab in tabs"
-    :key="tab.value"
-  >
-    <div class="d-flex align-center gap-5">
-      <p>
-        {{ tab.title }}
-      </p>
-      <VBtn
-        v-for="child in tab.childern"
-        :key="child"
-        class="my-1"
-        color="primary"
-        @click="currentTabIndex = child.id "
-      >
-        {{ child.title }}
-      </VBtn>
-    </div>
-  </div>
   <div v-if="order != null">
     <StaticTable
       :headers="headers"

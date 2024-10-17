@@ -43,7 +43,7 @@ export const mainTabs = [
   {
     title: 'الهيأة العامة للكمارك',
     image: '/steps/3.png',
-    activeWidth: '50%',
+    activeWidth: '55%',
     value: 0,
     childern: [
       {

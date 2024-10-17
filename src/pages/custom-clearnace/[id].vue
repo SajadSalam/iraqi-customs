@@ -31,7 +31,6 @@ const fetchData = async () => {
     customClearance.value = await customClearanceService.fetchCustomClearance(id.value)
     deliveryOrder.value = await customClearanceService.fetchDeliveryOrder(customClearance.value.deliveryOrder)
     deliveryItems.value = await customClearanceService.fetchDeliveryOrderItems(customClearance.value?.deliveryOrder)
-
   }
   catch (error) {
     console.error(error)
@@ -56,7 +55,6 @@ const tabs = [
 ]
 
 const isStatus = (status: CustomClearanceStatus) => customClearance.value?.status === status
-
 
 onMounted(() => {
   fetchData()
@@ -138,12 +136,12 @@ const nextStatus = computed(() => {
   }
   else if (isStatus(CustomClearanceStatus.TaxComplete)) {
     status.status = CustomClearanceStatus.MerchantComplete
-    status.text = 'دفع الاجور'
+    status.text = 'دفع الاجور وتسليم الاوراق'
   }
 
   else if (isStatus(CustomClearanceStatus.MerchantComplete)) {
     status.status = CustomClearanceStatus.Ports
-    status.text = 'دفع الاجور'
+    status.text = 'طلب تصريحة خروج'
   }
 
   return status
@@ -161,8 +159,6 @@ const isOnlyChangeStatus = computed(() => {
 </script>
 
 <template>
-
-
   <div v-if="!isLoading">
     <div class="d-flex align-end justify-end mb-2">
       <VBtn

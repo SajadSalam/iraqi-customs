@@ -8,7 +8,7 @@ import type { ApiUrls } from '@/models/apiUrls'
 import { baseURL } from '@/plugins/sw-axios'
 
 const urls = ref<ApiUrls>({
-  get: '/custom-clearance?status=10',
+  get: '/custom-clearance?status=9',
   delete: '/custom-clearance',
   create: '/custom-clearance',
   update: '/custom-clearance',
