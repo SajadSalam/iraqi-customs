@@ -44,6 +44,9 @@ export const formatDate = (value: string, formatting: Intl.DateTimeFormatOptions
 
 /* format time 00:01:03.80468 to words */
 export const timeToWords = (time: string) => {
+  if (time == null)
+    return '--'
+
   const timeParts = time.split(':')
 
   const minutes = parseInt(timeParts[1], 10) // Extract the minutes

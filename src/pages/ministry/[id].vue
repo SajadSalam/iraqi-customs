@@ -144,7 +144,6 @@ const orderOperation = (index: number) => order.value.operations[index]
   >
     <VCardTitle class="text-primary text-h4 pa-5">
       تتبع سير المعاملة
-      {{ mainTab }}
     </VCardTitle>
 
     <VDivider />
