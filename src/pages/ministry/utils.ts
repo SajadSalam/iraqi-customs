@@ -7,16 +7,21 @@ export enum OperationType {
   TaxWriter = 5,
   TaxChecker = 6,
   TaxComplete = 7,
-  MerchantView = 8,
-  MerchantComplete = 9,
-  Ports = 10,
-  SecurityCheck = 11,
+  MerchantComplete = 8,
+  Ports = 9,
+  SecurityCheck = 10,
 }
 export const mainTabs = [
   {
     title: 'المعارض العراقية',
     image: '/steps/1.png',
+    value: 0,
+    activeWidth: '10%',
     childern: [
+      {
+        title: 'طلب شهادة استيراد',
+        id: OperationType.Pending,
+      },
       {
         title: 'شهادة استيراد',
         id: OperationType.Certficate,
@@ -26,21 +31,21 @@ export const mainTabs = [
   {
     title: 'الشركة العامة للنقل البحري',
     image: '/steps/2.png',
+    value: 0,
+    activeWidth: '30%',
     childern: [
       {
         title: 'اصدار امر تسليم',
-        id: OperationType.Certficate,
+        id: OperationType.CustomClearance,
       },
     ],
   },
   {
     title: 'الهيأة العامة للكمارك',
     image: '/steps/3.png',
+    activeWidth: '50%',
+    value: 0,
     childern: [
-      {
-        title: 'طلب و تدقيق التصريحة الكمركية',
-        id: OperationType.CustomClearance,
-      },
       {
         title: 'كشف البضاعة',
         id: OperationType.Check,
@@ -61,22 +66,26 @@ export const mainTabs = [
     ],
   },
   {
-    title: 'هيأة المنافذ الحدودية',
+    title: 'المنافذ الحدودية',
     image: '/steps/4.png',
+    value: 0,
+    activeWidth: '75%',
     childern: [
       {
         title: 'تدقيق المعاملة',
-        id: OperationType.Ports,
+        id: OperationType.MerchantComplete,
       },
     ],
   },
   {
     title: 'النقاط الامنية',
     image: '/steps/5.png',
+    value: 0,
+    activeWidth: '100%',
     childern: [
       {
         title: 'فحص البضاعة',
-        id: OperationType.SecurityCheck,
+        id: OperationType.Ports,
       },
     ],
   },
@@ -84,13 +93,19 @@ export const mainTabs = [
 ]
 export const tabs = [
   {
+    title: 'طلب شهادة',
+    id: OperationType.Pending,
+    iconSuccess: 'mdi-file',
+    isValid: true,
+  },
+  {
     title: 'شهادة استيراد',
     id: OperationType.Certficate,
     iconSuccess: 'mdi-file',
     isValid: true,
   },
   {
-    title: 'تصريح كمركية',
+    title: 'تصريحة كمركية',
     id: OperationType.CustomClearance,
     iconSuccess: 'mdi-book',
     isValid: true,
@@ -123,12 +138,6 @@ export const tabs = [
     title: 'دفع الضريبة',
     id: OperationType.TaxComplete,
     iconSuccess: 'mdi-barcode-scan',
-    isValid: true,
-  },
-  {
-    title: 'فحص البضائع من المنافذ',
-    id: OperationType.MerchantView,
-    iconSuccess: 'mdi-ban',
     isValid: true,
   },
   {
