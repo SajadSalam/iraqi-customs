@@ -156,6 +156,15 @@ const isOnlyChangeStatus = computed(() => {
     || isStatus(CustomClearanceStatus.TaxComplete)
     || isStatus(CustomClearanceStatus.MerchantComplete)
 })
+
+const isError = computed(() => route.query.error)
+
+const errors = [
+  'تم تغيير وزن البضائع من قبل الموظف اثناء الفحص',
+  'تم تغيير الوزن الصافي للبضائع من قبل الموظف اثناء الفحص',
+  'يوجد تأخير في تسليم البضائع',
+  'تم تغيير رمز المنسق اثناء خطوات المعاملة',
+]
 </script>
 
 <template>
@@ -207,6 +216,26 @@ const isOnlyChangeStatus = computed(() => {
         تم مطابقة المعلومات
       </VBtn>
     </div>
+    <VAlert
+      v-if="isError"
+      variant="tonal"
+      color="error"
+      class="my-3"
+    >
+      <div class="d-flex align-center gap-2">
+        <VIcon size="50">
+          mdi-alert
+        </VIcon>
+        <div>
+          <h2 class="text-error">
+            يوجد اشتباه في التصريحة الكمركية
+          </h2>
+          <h3>
+            {{ errors[Math.floor(Math.random() * errors.length)] }}
+          </h3>
+        </div>
+      </div>
+    </VAlert>
     <CheckForm
       v-if="isStatus(CustomClearanceStatus.Check)"
       v-model="isChangeStatusDialogOpen"

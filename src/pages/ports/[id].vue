@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { VueSignaturePad } from '@selemondev/vue3-signature-pad'
+import { VProgressCircular } from 'vuetify/lib/components/index.mjs'
 import type { ClearanceDetails } from '../custom-clearnace/types'
 import { CustomClearanceStatus } from '../custom-clearnace/types'
 import { useCustomClearanceService } from '../custom-clearnace/utils'
@@ -101,6 +103,66 @@ const changeStatus = async (status: CustomClearanceStatus) => {
     console.error(error)
   }
 }
+
+const state = ref({
+  options: {
+    penColor: 'rgb(0, 0, 0)',
+    backgroundColor: 'rgb(255, 255, 255)',
+  },
+  disabled: false,
+})
+
+const colors = [
+  {
+    color: 'rgb(51, 133, 255)',
+  },
+
+  {
+    color: 'rgb(85, 255, 51)',
+  },
+
+  {
+    color: 'rgb(255, 85, 51)',
+  },
+]
+
+const activeColor = ref()
+
+const signature = ref()
+
+const handleSave = (t: string) => {
+  return console.log(signature.value.undo())
+}
+
+const handleClear = (t: string) => {
+  return signature.value.clearCanvas()
+}
+
+const handleUndo = (t: string) => {
+  return signature.value.undo()
+}
+
+const handleDisabled = () => {
+  return state.disabled = !state.disabled
+}
+
+const handleFromDataURL = (url: string) => {
+  return signature.value.fromDataURL(url)
+}
+
+const handleAddWaterMark = () => {
+  return signature1.value.addWaterMark({
+    text: 'Selemondev', // watermark text, > default ''
+    font: '20px Arial', // mark font, > default '20px sans-serif'
+    style: 'all', // fillText and strokeText,  'all'/'stroke'/'fill', > default 'fill
+    fillStyle: 'red', // fillcolor, > default '#333'
+    strokeStyle: 'blue', // strokecolor, > default '#333'
+    x: 100, // fill positionX, > default 20
+    y: 200, // fill positionY, > default 20
+    sx: 100, // stroke positionX, > default 40
+    sy: 200, // stroke positionY, > default 40
+  })
+}
 </script>
 
 <template>
@@ -150,12 +212,32 @@ const changeStatus = async (status: CustomClearanceStatus) => {
       />
     </div>
   </div>
-  <div class="sticky-btns d-flex justify-end ">
+  <div v-if="!isLoading" class="sticky-btns d-flex justify-end ">
     <ChangeStatusDialog
       v-model="isChangeStatusDialogOpen"
       title="السماح بالخروج واكمال التصريحة"
       @submitted="changeStatus(CustomClearanceStatus.SecurityCheck)"
-    />
+    >
+      <h2 class="mb-5">
+        توقيع تصريحة الخروج
+      </h2>
+      <div
+        style="border: 1px #ddd solid;"
+        class="rounded"
+      >
+        <VueSignaturePad
+          ref="signature"
+          height="400px"
+          width="1280px"
+          :max-width="2"
+          :min-width="2"
+          :disabled="state.disabled"
+          :options="{
+            penColor: state.options.penColor, backgroundColor: state.options.backgroundColor,
+          }"
+        />
+      </div>
+    </ChangeStatusDialog>
     <VBtn
       color="primary"
       @click="isChangeStatusDialogOpen = true"
@@ -165,6 +247,15 @@ const changeStatus = async (status: CustomClearanceStatus) => {
       </VIcon>
       السماح بالخروج
     </VBtn>
+  </div>
+  <div
+    v-if="isLoading"
+    class="d-flex justify-center align-center"
+  >
+    <VProgressCircular
+      indeterminate
+      size="150"
+    />
   </div>
 </template>
 

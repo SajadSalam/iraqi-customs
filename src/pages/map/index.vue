@@ -50,32 +50,32 @@ learnCardMotion.apply('custom')
 
 const ports = [
   {
-    coordinates: [47.1329, 30.4856],
+    coordinates: [47.7124335, 30.1033843],
     title: 'منفذ سفوان',
   },
   {
-    coordinates: [47.3566, 32.4183],
+    coordinates: [45.0705223, 30.101558],
     title: 'منفذ الشلامجة',
   },
   {
-    coordinates: [46.6651, 30.3726],
-    title: 'منفذ الزبير',
-  },
-  {
-    coordinates: [44.2394, 33.5104],
-    title: 'منفذ أم قصر الشمالي',
-  },
-  {
-    coordinates: [47.8095, 30.5852],
-    title: 'منفذ أم قصر الجنوبي',
-  },
-  {
-    coordinates: [47.7273, 29.473],
-    title: 'منفذ شلوي',
-  },
-  {
-    coordinates: [46.0936, 30.9188],
+    coordinates: [46.049142, 33.123790], // 33.123790, 46.049142
     title: 'منفذ زرباطية',
+  },
+  {
+    coordinates: [41.2015453, 36.8511575],
+    title: 'منفذ إبراهيم الخليل',
+  },
+  {
+    coordinates: [45.480023, 33.951158],
+    title: 'منفذ المنذرية',
+  },
+  {
+    coordinates: [41.0908754, 34.532746],
+    title: 'منفذ طريبيل',
+  },
+  {
+    coordinates: [47.4046136, 31.0270583],
+    title: 'منفذ البصرة',
   },
 ]
 
@@ -307,6 +307,8 @@ const router = useRouter()
               <VCard
                 v-for="i in 5"
                 :key="i"
+                to="/custom-clearnace/302836d5-7f13-4dce-a1aa-69d3c8b7b5cd?error=true"
+                target="_blank"
                 class="my-2"
               >
                 <VCardTitle class="d-flex align-center gap-2">
