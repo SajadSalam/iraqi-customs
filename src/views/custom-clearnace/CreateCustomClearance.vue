@@ -94,7 +94,7 @@ const post = async () => {
                   مبلغ التصريحة الكمركية
                 </p>
                 <span class="text-h5 font-weight-bold">
-                  33,000 د.ع
+                  25,000 د.ع
                 </span>
               </div>
               <div class="d-flex aligb-center justify-space-between ">
@@ -110,7 +110,7 @@ const post = async () => {
                   المبلغ الكلي
                 </p>
                 <span class="text-h5 font-weight-bold">
-                  33,000 د.ع
+                  25,000 د.ع
                 </span>
               </div>
               <!--

@@ -28,8 +28,8 @@ const fitProducts = () => {
     checkImages: [
     ],
     notIdenticalReason: '',
-    grossweight: '',
-    netweight: '',
+    grossweight: '20000',
+    netweight: '40000',
     quantity: '10',
     description: 'فحص',
   })
